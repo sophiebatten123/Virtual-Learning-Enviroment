@@ -248,7 +248,10 @@ function ReactToMouseDown(e) {
     mousedown.y = loc.y;
     dragging = true;
 
-    // HANDLE BRUSH
+    if(currentTool === 'brush') {
+        usingBrush = true;
+        AddBrushPoint(loc.x, loc.y);
+    }
 }
 
 // ReactToMouseMove which takes the event infromation as a parameter e.
@@ -256,10 +259,17 @@ function ReactToMouseMove(e) {
     canvas.style.cursor = "crosshair";
     loc = GetMousePosition(e.clientX, e.clientY);
 
-    // HANDLE BRUSH
-    if(dragging) {
+    if(currentTool === 'brush' && dragging && usingBrush) {
+       if(loc.x > 0 && loc.x < canvasWidth && loc.y > 0 && loc.y < canvasHeight) {
+        AddBrushPoint(loc.x, loc.y);
+       }
         RedrawCanvasImage();
-        UpdateRubberbandOnMove(loc);
+        DrawBrush();
+    } else {
+        if(dragging) {
+            RedrawCanvasImage();
+            UpdateRubberbandOnMove(loc);
+        }
     }
 }
 
