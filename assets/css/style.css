@@ -1,3 +1,7 @@
+.heading h1 {
+    text-align: center;
+}
+
 .wrapper {
     max-width: 900px;
     margin: auto;

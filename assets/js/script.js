@@ -293,8 +293,8 @@ function SaveImage(){
 
 // OpenImage
 function OpenImage() {
-    let img = new Image;
-    img.onload = function() {
+    let img = new Image();
+    img.onload = function(){
         ctx.clearRect(0,0,canvas.width, canvas.height);
         ctx.drawImage(img,0,0);
     }
