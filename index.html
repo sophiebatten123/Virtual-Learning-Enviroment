@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="keywords" content="classroom, paint, learn, draw, sketch">
+    <meta name="description" content="An online interactive classroom allowing teachers to display their solutions to students.">
+    <!--CSS Link-->
+    <link rel="stylesheet" type="text/css" href="assets/css/style.css">
+    <!--Bootstrap CSS Link-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+    <!---Font Awesome Link-->
+    <script src="https://kit.fontawesome.com/9488bd3455.js" crossorigin="anonymous"></script>
+    <!--Google Font-->
+    <link href="https://fonts.googleapis.com/css2?family=Mali:wght@300&family=Montserrat:wght@100&display=swap" rel="stylesheet">
+    <title>Classroom Paint</title>
+</head>
+<body>
+    <div class="wrapper">
+        <div class="toolbar">
+            <a href="#" class="selected" id="open" onclick="OpenImage()">
+                <img src="assets/images/open.png">
+            </a>
+            <a href="#" id="save" onclick="SaveImage()">
+                <img src="assets/images/save.png">
+            </a>
+            <a href="#" id="brush" onclick="ChangeTool('brush')">
+                <img src="assets/images/brush.png">
+            </a>
+            <a href="#" id="line" onclick="ChangeTool('line')">
+                <img src="assets/images/line.png">
+            </a>
+            <a href="#" id="rectangle" onclick="ChangeTool('rectangle')">
+                <img src="assets/images/rectangle.png">
+            </a>
+            <a href="#" id="circle" onclick="ChangeTool('circle')">
+                <img src="assets/images/circle.png">
+            </a>
+            <a href="#" id="ellipse" onclick="ChangeTool('ellipse')">
+                <img src="assets/images/ellipse.png">
+            </a>
+            <a href="#" id="polygon" onclick="ChangeTool('polygon')">
+                <img src="assets/images/polygon.png">
+            </a>
+        </div>
+        <br>
+        <canvas id="my-canvas" width="600" height="600"></canvas>
+        <div id="img-data-div">
+            <a href="#" id="img-file" download="image.png">Download Image</a>
+        </div>
+    </div>
+
+
+<!--Bootstrap Javascript Link-->
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous"></script>
+<!--JavaScript Link-->
+<script src="assets/js/script.js"></script> 
+</body>
+</html>
