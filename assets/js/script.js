@@ -137,7 +137,6 @@ function getAngleUsingXAndY(mouselocX, mouselocY) {
 // Concert from radians to degrees.
 function radiansToDegrees(rad) {
     return (rad * (180 / Math.PI)).toFixed(2);
-}
 
 // Convert from degrees to radians.
 function degreesToRadians(degrees) {
@@ -148,7 +147,19 @@ function degreesToRadians(degrees) {
 
 // Update the rubber band on movement.
 
-// React to mouse down
+// ReactToMouseDown which takes the event information in as a parameter e.
+function ReactToMouseDown(e){
+    canvas.style.cursor = "crosshair";
+    // Stores the location for the mouse and the values of x and y
+    loc = GetMousePosition(e.clientX, e.clientY);
+    // Saves the content that is already on the canvas before drawing something new on the page.
+    SaveCanvasImage();
+    mousedown.x = loc.x;
+    mousedown.y = loc.y;
+    dragging = true;
+
+    // HANDLE BRUSH
+}
 
 // React to mouse move
 
