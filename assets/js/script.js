@@ -189,7 +189,32 @@ function UpdateRubberbandOnMove(loc) {
 function drawRubberbandShape(loc) {
     ctx.strokeStyle = strokeColor;
     ctx.fillColor = fillColor;
-    ctx.strokeRect(shapeBoundingBox.left, shapeBoundingBox.top, shapeBoundingBox.width, shapeBoundingBox.height);
+
+    if(currentTool === "brush") {
+        DrawBrush();
+    } else if (currentTool === "line") {
+        ctx.beginPath();
+        ctx.moveTo(mousedown.x, mousedown.y);
+        ctx.lineTo(loc.x, loc.y);
+        ctx.stroke();
+    } else if (currentTool === "rectangle") {
+        ctx.strokeRect(shapeBoundingBox.left, shapeBoundingBox.top,
+            shapeBoundingBox.width, shapeBoundingBox.height);
+    } else if (currentTool === "circle") {
+        let radius = shapeBoundingBox.width;
+        ctx.beginPath();
+        ctx.arc(mouseDown.x, mousedown.y, radius, 0, Math.PI * 2);
+        ctx.stroke();
+    } else if (currentTool === "ellipse") {
+        let radiusX = shapeBoundingBox.width / 2;
+        let radiusY = shapeBoundingBox.height / 2;
+        ctx.beginPath();
+        ctx.ellipse(mousedown.x, mousedown.y, radiusX, radiusY, Math.PI / 4, 0, Math.PI * 2);
+        ctx.stroke();
+    } else if (currentTool === "polygon") {
+        getPolygon();
+        ctx.stroke();
+    }
 }
 
 function AddBrushPoint(c, y, mouseDown) {
