@@ -17,20 +17,13 @@
     <title>Classroom Paint</title>
 </head>
 <body>
-    <div class="row">
-        <div class="col-12 heading">
-            <h1>Online Maths Classroom</h1>
-        </div>
+    <div class="heading">
+        <h1>Online Maths Classroom</h1>
+        <img src="assets/images/logo.png">
     </div>
     <div class="wrapper">
         <div class="toolbar">
-            <a href="#" class="selected" id="open" onclick="OpenImage()">
-                <img src="assets/images/open.png">
-            </a>
-            <a href="#" id="save" onclick="SaveImage()">
-                <img src="assets/images/save.png">
-            </a>
-            <a href="#" id="brush" onclick="ChangeTool('brush')">
+            <a href="#" id="brush" class="selected" onclick="ChangeTool('brush')">
                 <img src="assets/images/brush.png">
             </a>
             <a href="#" id="line" onclick="ChangeTool('line')">
@@ -48,12 +41,21 @@
             <a href="#" id="polygon" onclick="ChangeTool('polygon')">
                 <img src="assets/images/polygon.png">
             </a>
+            <a href="#" id="bin" onclick="ClearCanvas()">
+                <img src="assets/images/bin.png">
+            </a>
+            <a href="#" id="undo" onclick="UndoCanvas()">
+                <img src="assets/images/undo.png">
+            </a>
+            <a href="#" id="save" onclick="SaveImage()">
+                <img src="assets/images/save.png">
+            </a>
         </div>
-        <br>
-        <canvas id="my-canvas" width="600" height="600"></canvas>
-        <div id="img-data-div">
-            <a href="#" id="img-file" download="image.png">Download Image</a>
-        </div>
+    </div>
+    <br>
+    <canvas id="my-canvas" width="600" height="600"></canvas>
+    <div id="img-data-div" class="download">
+        <a href="#" id="img-file" download="image.png">Download Saved Lesson</a>
     </div>
 <!--Bootstrap Javascript Link-->
 <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>

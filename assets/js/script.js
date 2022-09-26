@@ -16,6 +16,11 @@ let usingBrush = false;
 let brushXPoints = new Array();
 let brushYPoints = new Array();
 let brushDownPos = new Array();
+let brush_index = -1;
+
+// Stores all of the interactions made with the canvas
+let interactions = [];
+let index = -1;
 
 // Postition bounds for moving images within the canvas
 class ShapeBoundingBox {
@@ -76,8 +81,9 @@ function setupCanvas(){
 // Awaits for the function below to be ran, a string has been passed in within the HTML code to distinguish the tool type.
 function ChangeTool(toolClicked){
     // Resets the selected class name from the tools to start with.
-    document.getElementById('open').className = "";
     document.getElementById('save').className = "";
+    document.getElementById('undo').className = "";
+    document.getElementById('bin').className = "";
     document.getElementById('brush').className = "";
     document.getElementById('line').className = "";
     document.getElementById('rectangle').className = "";
@@ -221,6 +227,7 @@ function AddBrushPoint(x, y, mouseDown){
     brushXPoints.push(x);
     brushYPoints.push(y);
     brushDownPos.push(mouseDown);
+    brush_index += 1;
 }
 
 function DrawBrush() {
@@ -282,6 +289,11 @@ function ReactToMouseUp(e){
     UpdateRubberbandOnMove(loc);
     dragging = false;
     usingBrush = false;
+
+    if (e.type != "mousedown") {
+        interactions.push(ctx.getImageData(0, 0, canvas.width, canvas.height));
+        index += 1;
+    }
 }
 
 // SaveImage
@@ -295,8 +307,28 @@ function SaveImage(){
 function OpenImage() {
     let img = new Image();
     img.onload = function(){
-        ctx.clearRect(0,0,canvas.width, canvas.height);
+        ctx.clearRect(0,0,canvas.width,canvas.height);
         ctx.drawImage(img,0,0);
     }
     img.src = 'image.png';
+}
+
+// Clears information from the canvas completely
+function ClearCanvas(){
+    ctx.fillColor = "white";
+    ctx.clearRect(0,0,canvas.width,canvas.height)
+
+    interactions = [];
+    index = -1;
+}
+
+function UndoCanvas(){
+    if (index <= 0) {
+        ClearCanvas();
+    } else {
+        index -= 1;
+        interactions.pop();
+        ctx.putImageData(interactions[index], 0, 0);
+        console.log(interactions)
+    }
 }

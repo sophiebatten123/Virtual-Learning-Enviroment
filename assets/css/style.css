@@ -1,17 +1,41 @@
 .heading h1 {
     text-align: center;
+    font-family: 'Montserrat', sans-serif;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.heading {
+    position: relative;
+}
+
+.heading img {
+    position: absolute;
+    width: 100px;
+    height: auto;
+    top: 20px;
+    right: 50px;
+}
+
+.download {
+    text-align: center;
+    text-decoration: none;
+}
+.download a {
+    font-family: 'Montserrat', sans-serif;
+    color: #141c56;
 }
 
 .wrapper {
-    max-width: 900px;
+    max-width: 500px;
     margin: auto;
     font-family: 'Montserrat', sans-serif;
 }
 
 .toolbar {
     width: 100%;
-    background-color: grey;
     overflow: auto;
+    background-color: #141c56;
 }
 
 .toolbar a {
@@ -23,21 +47,20 @@
 }
 
 .toolbar a:hover {
-    background-color: black;
+    background-color: #329948;
 }
 
 .selected {
-    background-color: black;
+    background-color: #329948;
 }
 
 #my-canvas {
     width: 100%;
-    border: 3px solid black;
+    border: 3px solid #141c56;
 }
 
 #img-data-div {
     width: 100%;
-    max-width: 900px;
     height: 200px;
 }
 
