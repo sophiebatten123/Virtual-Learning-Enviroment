@@ -46,7 +46,9 @@ class PolygonPoint {
 
 // Creates an inital position.
 let shapeBoundingBox = new ShapeBoundingBox(0,0,0,0);
-let mouseDown = new MouseDownPos(0,0);
+// Mouse position when the mouse was clicked down.
+let mousedown = new MouseDownPos(0,0);
+// Current mouse position on the canvas.
 let loc = new Location(0,0);
 
 // Calls a function to set up the canvas when ever the page loads.
@@ -84,22 +86,63 @@ function ChangeTool(toolClicked){
 function GetMousePosition(x,y){
     // Determine the canvas size and its position within the webpage.
     let canvasSizeData = canvas.getBoundingClientRect();
-    // Gets the canvas point in the upper left corners and multiplies it by the canvas width, which will be divided by the canvas size overall width.
+    // Provides the mouses position inside the canvas.
     return {x: (x - canvasSizeData.left) * (canvas.width / canvasSizeData.width),
-    y: (y - canvasSizeData.top) * (canvas.height / canvasSizeData.height)}
+    y: (y - canvasSizeData.top) * (canvas.height / canvasSizeData.height)};
 }
 
 // Save the canvas image.
+function SaveCanvasImage() {
+    savedImageData = ctx.getImageData(0,0,canvas.width,canvas.height);
+}
 
 // Redraw the canvas image.
+function RedrawCanvasImage() {
+    ctx.putImageData(savedImageData);
+}
 
-// Update the rubber band size data for shapes.
+// Update the rubber band size data for shapes, mouse position has been passed in as a variable.
+function UpdateRubberbandSizeData(loc) {
+    // Find out the width of the shape based on where they clicked (mousedown) and the current position on screen (loc).
+    shapeBoundingBox.width = Math.abs(loc.x - mousedown.x);
+    // Find out the height of the shape based on where they clicked (mousedown) and the current position on screen (loc).
+    shapeBoundingBox.height = Math.abs(loc.y - mousedown.y);
+
+    // This determines which is the left point of the shape based on whether you drag left or right on the screen.
+    if (loc.x > mousedown.x) {
+        shapeBoundingBox.left = mousedown.x;
+    } else {
+        shapeBoundingBox.left = loc.x;
+    }
+
+    // This determines which is the top point of the shape based on whether you drag it up or down on the screen.
+    if (loc.y > mousedown.y) {
+        shapeBoundingBox.top = mousedown.y;
+    } else {
+        shapeBoundingBox.top = loc.y;
+    }
+}
+
 
 // Use trigonometry to determine x and y positions.
-
+function getAngleUsingXAndY(mouselocX, mouselocY) {
+    // X = Adjacent
+    let adjacent = mousedown.x - mouselocX;
+    // Y = Opposite
+    let opposite = mousedown.y - mouselocY;
+    // Returns the angle created by the shape
+    return radiansToDegrees(Math.atan2(opposite/adjacent));
+}
+    
 // Concert from radians to degrees.
+function radiansToDegrees(rad) {
+    return (rad * (180 / Math.PI)).toFixed(2);
+}
 
 // Convert from degrees to radians.
+function degreesToRadians(degrees) {
+    return degrees * (Math.PI)/180;
+}
 
 // Draw the rubber band shape.
 
