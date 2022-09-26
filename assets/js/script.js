@@ -10,6 +10,13 @@ let currentTool = 'brush';
 let canvasWidth = 600;
 let canvasHeight = 600;
 
+// Brush features
+let usingBrush = false;
+// Stores all of the points as they are dragged as an array for the brush feature.
+let brushXPoints = new Arrays();
+let brushYPoints = new Arrays();
+let brushDownPos = new Arrays();
+
 // Postition bounds for moving images within the canvas
 class ShapeBoundingBox {
     constructor(left, top, width, height){
@@ -98,7 +105,7 @@ function SaveCanvasImage() {
 
 // Redraw the canvas image.
 function RedrawCanvasImage() {
-    ctx.putImageData(savedImageData);
+    ctx.putImageData(savedImageData,0,0);
 }
 
 // Update the rubber band size data for shapes, mouse position has been passed in as a variable.
@@ -144,9 +151,66 @@ function degreesToRadians(degrees) {
     return degrees * (Math.PI)/180;
 }
 
+// Create a polygon and hold its points, each will be found by breaking the polygon into triangles and using trigonometry.
+function getPolygonPoints() {
+    let angle = degreesToRadians(getAngleUsingXAndY(loc.x, loc.y));
+    let radiusX = shapeBoundingBox.width;
+    let radiusY = shapeBoundingBox.height;
+    let polygonPoints = [];
+    // X coordinate = mouseloc.x + radiusX * Sin(angle)
+    // Y coordinate = mouseloc.y - radiusY * Cos(angle)
+    for(let i=0; i <polygonSides; i++) {
+        polygonPoints.push(new PolygonPoint(loc.x + radiusX * Math.sin(angle), 
+        loc.y - radiusY * Math.cos(angle)));
+        // As 2 * PI is 360 degrees.
+        angle += 2 * Math.PI / polygonSides;
+    }
+    return polygonPoints;
+}
+
+// Function to enable the polygon draw function to work.
+function getPolygon() {
+    let polygonPoints = getPolygonPoints();
+    ctx.beginPath();
+    ctx.moveTo(polygonPoints[0].x, polygonPoints[0].y);
+    for(let i=1; i < polygonSides; i++) {
+        ctx.lineTo(polygonPoints[i].x, polygonPoints[i].y);
+    }
+    ctx.closePath();
+}
+
 // Draw the rubber band shape.
+function UpdateRubberbandOnMove(loc) {
+    UpdateRubberbandSizeData(loc);
+    drawRubberbandShape(loc);
+}
 
 // Update the rubber band on movement.
+function drawRubberbandShape(loc) {
+    ctx.strokeStyle = strokeColor;
+    ctx.fillColor = fillColor;
+    ctx.strokeRect(shapeBoundingBox.left, shapeBoundingBox.top, shapeBoundingBox.width, shapeBoundingBox.height);
+}
+
+function AddBrushPoint(c, y, mouseDown) {
+    brushXPoints.push(x);
+    brushYPoints.push(y);
+    brushDownPos.push(mouseDown);
+}
+
+function DrawBrush() {
+    for(let i=0; i < brushXPoints.length; i++) {
+        ctx.beginPath();
+        if(brushDownPos[i]) {
+            ctx.moveTo(brushXPoints[i-1], brushYPoints[i-1]);
+        } else {
+            ctx.moveTo(brushXPoints[i]-1, brushYPoints[i]-1);
+        }
+        ctx.lineTo(brushXPoints[i], brushYPoints[i]);
+        ctx.closePath();
+        ctx.stroke();
+    }
+}
 
 // ReactToMouseDown which takes the event information in as a parameter e.
 function ReactToMouseDown(e) {
@@ -168,6 +232,10 @@ function ReactToMouseMove(e) {
     loc = GetMousePosition(e.clientX, e.clientY);
 
     // HANDLE BRUSH
+    if(dragging) {
+        RedrawCanvasImage();
+        UpdateRubberbandOnMove(loc);
+    }
 }
 
 // ReactToMouseUp whish takes the event information as a parameter e.
