@@ -137,6 +137,7 @@ function getAngleUsingXAndY(mouselocX, mouselocY) {
 // Concert from radians to degrees.
 function radiansToDegrees(rad) {
     return (rad * (180 / Math.PI)).toFixed(2);
+}
 
 // Convert from degrees to radians.
 function degreesToRadians(degrees) {
@@ -148,7 +149,7 @@ function degreesToRadians(degrees) {
 // Update the rubber band on movement.
 
 // ReactToMouseDown which takes the event information in as a parameter e.
-function ReactToMouseDown(e){
+function ReactToMouseDown(e) {
     canvas.style.cursor = "crosshair";
     // Stores the location for the mouse and the values of x and y
     loc = GetMousePosition(e.clientX, e.clientY);
@@ -161,10 +162,37 @@ function ReactToMouseDown(e){
     // HANDLE BRUSH
 }
 
-// React to mouse move
+// ReactToMouseMove which takes the event infromation as a parameter e.
+function ReactToMouseMove(e) {
+    canvas.style.cursor = "crosshair";
+    loc = GetMousePosition(e.clientX, e.clientY);
 
-// React to mouse up
+    // HANDLE BRUSH
+}
 
-// Save Image
+// ReactToMouseUp whish takes the event information as a parameter e.
+function ReactToMouseUp(e){
+    canvas.style.cursor = "crosshair";
+    loc = GetMousePosition(e.clientX, e.clientY);
+    RedrawCanvasImage();
+    UpdateRubberbandOnMove(loc);
+    dragging = false;
+    usingBrush = false;
+}
 
-// Open Image
+// SaveImage
+function SaveImage(){
+    var imageFile = document.getElementById('img-file');
+    imageFile.setAttribute('download', 'image.png');
+    imageFile.setAttribute('href', canvas.toDataURL());
+}
+
+// OpenImage
+function OpenImage() {
+    let img = new Image;
+    img.onload = function() {
+        ctx.clearRect(0,0,canvas.width, canvas.height);
+        ctx.drawImage(img,0,0);
+    }
+    img.src = 'image.png';
+}
