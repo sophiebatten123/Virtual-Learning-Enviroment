@@ -13,9 +13,9 @@ let canvasHeight = 600;
 // Brush features
 let usingBrush = false;
 // Stores all of the points as they are dragged as an array for the brush feature.
-let brushXPoints = new Arrays();
-let brushYPoints = new Arrays();
-let brushDownPos = new Arrays();
+let brushXPoints = new Array();
+let brushYPoints = new Array();
+let brushDownPos = new Array();
 
 // Postition bounds for moving images within the canvas
 class ShapeBoundingBox {
@@ -64,7 +64,7 @@ document.addEventListener('DOMContentLoaded', setupCanvas);
 function setupCanvas(){
     canvas = document.getElementById('my-canvas');
     // Provides all of the functions for working with the canvas, below are part of the canvas context.
-    ctx = canvas.getContext('2d')
+    ctx = canvas.getContext('2d');
     ctx.strokeStyle = strokeColor;
     ctx.lineWidth = line_Width;
     // Adds an event listener for each of the interactions users can have with the canvas.
@@ -132,13 +132,13 @@ function UpdateRubberbandSizeData(loc) {
 
 
 // Use trigonometry to determine x and y positions.
-function getAngleUsingXAndY(mouselocX, mouselocY) {
+function getAngleUsingXAndY(mouselocX, mouselocY){
     // X = Adjacent
     let adjacent = mousedown.x - mouselocX;
     // Y = Opposite
     let opposite = mousedown.y - mouselocY;
     // Returns the angle created by the shape
-    return radiansToDegrees(Math.atan2(opposite/adjacent));
+    return radiansToDegrees(Math.atan2(opposite, adjacent));
 }
     
 // Concert from radians to degrees.
@@ -152,14 +152,14 @@ function degreesToRadians(degrees) {
 }
 
 // Create a polygon and hold its points, each will be found by breaking the polygon into triangles and using trigonometry.
-function getPolygonPoints() {
+function getPolygonPoints(){
     let angle = degreesToRadians(getAngleUsingXAndY(loc.x, loc.y));
     let radiusX = shapeBoundingBox.width;
     let radiusY = shapeBoundingBox.height;
     let polygonPoints = [];
     // X coordinate = mouseloc.x + radiusX * Sin(angle)
     // Y coordinate = mouseloc.y - radiusY * Cos(angle)
-    for(let i=0; i <polygonSides; i++) {
+    for(let i = 0; i < polygonSides; i++){
         polygonPoints.push(new PolygonPoint(loc.x + radiusX * Math.sin(angle), 
         loc.y - radiusY * Math.cos(angle)));
         // As 2 * PI is 360 degrees.
@@ -169,20 +169,14 @@ function getPolygonPoints() {
 }
 
 // Function to enable the polygon draw function to work.
-function getPolygon() {
+function getPolygon(){
     let polygonPoints = getPolygonPoints();
     ctx.beginPath();
     ctx.moveTo(polygonPoints[0].x, polygonPoints[0].y);
-    for(let i=1; i < polygonSides; i++) {
+    for(let i = 1; i < polygonSides; i++){
         ctx.lineTo(polygonPoints[i].x, polygonPoints[i].y);
     }
     ctx.closePath();
-}
-
-// Draw the rubber band shape.
-function UpdateRubberbandOnMove(loc) {
-    UpdateRubberbandSizeData(loc);
-    drawRubberbandShape(loc);
 }
 
 // Update the rubber band on movement.
@@ -203,7 +197,7 @@ function drawRubberbandShape(loc) {
     } else if (currentTool === "circle") {
         let radius = shapeBoundingBox.width;
         ctx.beginPath();
-        ctx.arc(mouseDown.x, mousedown.y, radius, 0, Math.PI * 2);
+        ctx.arc(mousedown.x, mousedown.y, radius, 0, Math.PI * 2);
         ctx.stroke();
     } else if (currentTool === "ellipse") {
         let radiusX = shapeBoundingBox.width / 2;
@@ -217,19 +211,26 @@ function drawRubberbandShape(loc) {
     }
 }
 
-function AddBrushPoint(c, y, mouseDown) {
+// Draw the rubber band shape.
+function UpdateRubberbandOnMove(loc) {
+    UpdateRubberbandSizeData(loc);
+    drawRubberbandShape(loc);
+}
+
+function AddBrushPoint(x, y, mouseDown){
     brushXPoints.push(x);
     brushYPoints.push(y);
     brushDownPos.push(mouseDown);
 }
 
 function DrawBrush() {
-    for(let i=0; i < brushXPoints.length; i++) {
+    for(let i = 1; i < brushXPoints.length; i++) {
         ctx.beginPath();
-        if(brushDownPos[i]) {
+
+        if(brushDownPos[i]){
             ctx.moveTo(brushXPoints[i-1], brushYPoints[i-1]);
         } else {
-            ctx.moveTo(brushXPoints[i]-1, brushYPoints[i]-1);
+            ctx.moveTo(brushXPoints[i]-1, brushYPoints[i]);
         }
         ctx.lineTo(brushXPoints[i], brushYPoints[i]);
         ctx.closePath();
@@ -259,18 +260,18 @@ function ReactToMouseMove(e) {
     canvas.style.cursor = "crosshair";
     loc = GetMousePosition(e.clientX, e.clientY);
 
-    if(currentTool === 'brush' && dragging && usingBrush) {
-       if(loc.x > 0 && loc.x < canvasWidth && loc.y > 0 && loc.y < canvasHeight) {
-        AddBrushPoint(loc.x, loc.y);
+    if(currentTool === 'brush' && dragging && usingBrush){
+       if(loc.x > 0 && loc.x < canvasWidth && loc.y > 0 && loc.y < canvasHeight){
+        AddBrushPoint(loc.x, loc.y, true);
        }
         RedrawCanvasImage();
         DrawBrush();
     } else {
-        if(dragging) {
+        if(dragging){
             RedrawCanvasImage();
             UpdateRubberbandOnMove(loc);
         }
-    }
+    };
 }
 
 // ReactToMouseUp whish takes the event information as a parameter e.
