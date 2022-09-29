@@ -93,6 +93,7 @@ function ChangeTool(toolClicked){
     document.getElementById('circle').className = "";
     document.getElementById('ellipse').className = "";
     document.getElementById('polygon').className = "";
+    document.getElementById('text').className = "";
     // Highlights the last selected tool in the toolbar and stores the current tool within the variable defined at the top.
     document.getElementById(toolClicked).className = "selected";
     currentTool = toolClicked;
@@ -224,9 +225,11 @@ function drawRubberbandShape(loc) {
         ctx.moveTo(mousedown.x, mousedown.y);
         ctx.lineTo(loc.x, loc.y);
         ctx.stroke();
+    } else if (currentTool === "text") {
+        Question();
     } else if (currentTool === "rectangle") {
         ctx.strokeRect(shapeBoundingBox.left, shapeBoundingBox.top,
-            shapeBoundingBox.width, shapeBoundingBox.height);
+        shapeBoundingBox.width, shapeBoundingBox.height);
     } else if (currentTool === "circle") {
         let radius = shapeBoundingBox.width;
         ctx.beginPath();
@@ -248,6 +251,24 @@ function drawRubberbandShape(loc) {
 function UpdateRubberbandOnMove(loc) {
     UpdateRubberbandSizeData(loc);
     drawRubberbandShape(loc);
+}
+
+function AddText(q) {
+    ClearCanvas()
+    document.body.style.cursor = "text";
+    ctx.font = "10px Arial";
+    ctx.fillText(q, 30, 30);
+    document.getElementById('question').style.display = 'none';
+}
+
+function Question(){
+    document.getElementById('question').style.display = 'block';
+    var q = document.getElementById('textarea').value;
+    var add = document.getElementById('add');
+    add.addEventListener('click', function(){
+        AddText(q);
+        document.getElementById('textarea').value = '';
+    })
 }
 
 function AddBrushPoint(x, y, mouseDown){

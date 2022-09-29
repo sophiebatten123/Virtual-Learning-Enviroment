@@ -12,13 +12,15 @@
 #colours {
     display: flex;
     padding-bottom: 10px;
+    padding-right: 10px;
+    justify-content: right;
 }
 
 .circle-colour {
     margin-left: 5px;
     margin-right: 5px;
-    height: 50px;
-    width: 50px;
+    height: 20px;
+    width: 20px;
     border: 2px solid black;
     border-radius: 50%;
 }
@@ -41,14 +43,6 @@
 
 #black {
     background-color: black;
-}
-
-.heading img {
-    position: absolute;
-    width: 100px;
-    height: auto;
-    top: 20px;
-    right: 50px;
 }
 
 .download {
@@ -74,7 +68,7 @@
 
 .toolbar a {
     float: left;
-    width: 11%;
+    width: 10%;
     text-align: center;
     padding: 6px 5px;
     transition: all 0.5s ease;
@@ -101,4 +95,23 @@
 .toolbar a img {
     max-width: 100%;
     height: auto;
+}
+
+#add {
+    background-color: white;
+    border: none;
+}
+
+#add i {
+    color: green;
+    background-color: white;
+}
+
+#question {
+    text-align: center;
+    display: none;
+}
+
+#textarea {
+    width: 70%;
 }

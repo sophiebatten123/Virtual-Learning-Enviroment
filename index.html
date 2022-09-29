@@ -19,12 +19,14 @@
 <body>
     <div class="heading">
         <h1>Online Maths Classroom</h1>
-        <img src="assets/images/logo.png">
     </div>
     <div class="wrapper">
         <div class="toolbar">
             <a href="#" id="brush" class="selected" onclick="ChangeTool('brush')">
                 <img src="assets/images/brush.png">
+            </a>
+            <a href="#" id="text" onclick="ChangeTool('text')">
+                <img src="assets/images/text.png">
             </a>
             <a href="#" id="line" onclick="ChangeTool('line')">
                 <img src="assets/images/line.png">
@@ -52,12 +54,15 @@
             </a>
         </div>
     </div>
-    <br>
     <div id="colours">
         <div class="circle-colour" id="blue"></div>
         <div class="circle-colour" id="green"></div>
         <div class="circle-colour" id="red"></div>
         <div class="circle-colour" id="black"></div>
+    </div>
+    <div id="question">
+        <textarea id="textarea" oninput="Question()" placeholder="Enter your new question"></textarea>
+        <button id="add"><i class="fa-solid fa-plus"></i></button>
     </div>
     <canvas id="my-canvas" width="600" height="auto"></canvas>
     <div id="img-data-div" class="download">
