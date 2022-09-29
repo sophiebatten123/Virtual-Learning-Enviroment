@@ -317,7 +317,11 @@ function OpenImage() {
 function ClearCanvas(){
     ctx.fillColor = "white";
     ctx.clearRect(0,0,canvas.width,canvas.height)
-
+    for (let i=0; i < brushXPoints.length; i++) {
+        delete brushXPoints[i];
+        delete brushYPoints[i];
+        delete brushDownPos[i];
+    }
     interactions = [];
     index = -1;
 }
@@ -326,9 +330,19 @@ function UndoCanvas(){
     if (index <= 0) {
         ClearCanvas();
     } else {
-        index -= 1;
-        interactions.pop();
-        ctx.putImageData(interactions[index], 0, 0);
-        console.log(interactions)
+        if (currentTool === 'brush') {
+            for (let i=0; i < brushXPoints.length; i++) {
+                delete brushXPoints[i];
+                delete brushYPoints[i];
+                delete brushDownPos[i];
+            }
+            index -= 1;
+            interactions.pop();
+            ctx.putImageData(interactions[index], 0, 0);
+        } else {
+            index -= 1;
+            interactions.pop();
+            ctx.putImageData(interactions[index], 0, 0);
+        }
     }
 }
