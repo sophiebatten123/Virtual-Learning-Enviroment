@@ -2,7 +2,7 @@ let canvas;
 let ctx;
 let savedImageData;
 let dragging = false;
-let strokeColor = 'black';
+let stroke_color = 'black';
 let fillColor = 'black';
 let line_Width = 2;
 let polygonSides = 6;
@@ -16,6 +16,7 @@ let usingBrush = false;
 let brushXPoints = new Array();
 let brushYPoints = new Array();
 let brushDownPos = new Array();
+let brushColour = new Array();
 let brush_index = -1;
 
 // Stores all of the interactions made with the canvas
@@ -63,6 +64,8 @@ let mousedown = new MouseDownPos(0,0);
 // Current mouse position on the canvas.
 let loc = new Location(0,0);
 
+selectColour();
+
 // Calls a function to set up the canvas when ever the page loads.
 document.addEventListener('DOMContentLoaded', setupCanvas);
 
@@ -70,7 +73,7 @@ function setupCanvas(){
     canvas = document.getElementById('my-canvas');
     // Provides all of the functions for working with the canvas, below are part of the canvas context.
     ctx = canvas.getContext('2d');
-    ctx.strokeStyle = strokeColor;
+    ctx.strokeStyle = stroke_color;
     ctx.lineWidth = line_Width;
     // Adds an event listener for each of the interactions users can have with the canvas.
     canvas.addEventListener('mousedown', ReactToMouseDown);
@@ -93,6 +96,30 @@ function ChangeTool(toolClicked){
     // Highlights the last selected tool in the toolbar and stores the current tool within the variable defined at the top.
     document.getElementById(toolClicked).className = "selected";
     currentTool = toolClicked;
+}
+
+function selectColour(){
+    blue = document.getElementById('blue');
+    red = document.getElementById('red');
+    green = document.getElementById('green');
+    black = document.getElementById('black');
+
+    blue.addEventListener('click', function(){
+        stroke_color = 'blue';
+        console.log(stroke_color);
+    });
+    red.addEventListener('click', function(){
+        stroke_color = 'red';
+        console.log(stroke_color);
+    });
+    green.addEventListener('click', function(){
+        stroke_color = 'green';
+        console.log(stroke_color);
+    });
+    black.addEventListener('click', function(){
+        stroke_color = 'black';
+        console.log(stroke_color);
+    });
 }
 
 // Get the current mouse position.
@@ -187,7 +214,7 @@ function getPolygon(){
 
 // Update the rubber band on movement.
 function drawRubberbandShape(loc) {
-    ctx.strokeStyle = strokeColor;
+    ctx.strokeStyle = stroke_color;
     ctx.fillColor = fillColor;
 
     if(currentTool === "brush") {
@@ -235,9 +262,9 @@ function DrawBrush() {
         ctx.beginPath();
 
         if(brushDownPos[i]){
-            ctx.moveTo(brushXPoints[i-1], brushYPoints[i-1]);
+            ctx.moveTo(brushXPoints[i-1], brushYPoints[i-1], brushColour[i]);
         } else {
-            ctx.moveTo(brushXPoints[i]-1, brushYPoints[i]);
+            ctx.moveTo(brushXPoints[i]-1, brushYPoints[i], brushColour[i]);
         }
         ctx.lineTo(brushXPoints[i], brushYPoints[i]);
         ctx.closePath();
@@ -248,6 +275,7 @@ function DrawBrush() {
 // ReactToMouseDown which takes the event information in as a parameter e.
 function ReactToMouseDown(e) {
     canvas.style.cursor = "crosshair";
+    ctx.strokeStyle = stroke_color;
     // Stores the location for the mouse and the values of x and y
     loc = GetMousePosition(e.clientX, e.clientY);
     // Saves the content that is already on the canvas before drawing something new on the page.

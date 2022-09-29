@@ -9,6 +9,40 @@
     position: relative;
 }
 
+#colours {
+    display: flex;
+    padding-bottom: 10px;
+}
+
+.circle-colour {
+    margin-left: 5px;
+    margin-right: 5px;
+    height: 50px;
+    width: 50px;
+    border: 2px solid black;
+    border-radius: 50%;
+}
+
+.circle-colour:hover {
+    cursor: pointer;
+}
+
+#blue {
+    background-color: blue;
+}
+
+#red {
+    background-color: red;
+}
+
+#green {
+    background-color: green;
+}
+
+#black {
+    background-color: black;
+}
+
 .heading img {
     position: absolute;
     width: 100px;
