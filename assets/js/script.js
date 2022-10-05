@@ -7,8 +7,34 @@ let fillColor = 'black';
 let line_Width = 2;
 let polygonSides = 6;
 let currentTool = 'brush';
-let canvasWidth = 600;
-let canvasHeight = 600;
+let canvasWidth = 1000;
+let canvasHeight = 500;
+
+// Webcam Features
+var stop = function () {
+    var stream = video.srcObject;
+    var tracks = stream.getTracks();
+    for (var i = 0; i < tracks.length; i++) {
+        var track = tracks[i];
+        track.stop();
+    }
+    video.srcObject = null;
+}
+var start = function () {
+    var video = document.getElementById('video');
+    vendorUrl = window.URL || window.webkitURL;
+    if (navigator.mediaDevices.getUserMedia) {
+        navigator.mediaDevices.getUserMedia({ video: true })
+        .then(function (stream) {
+            video.srcObject = stream;
+        }).catch(function (error) {
+            console.log("Something went wrong!");
+        });
+    }
+}
+$(function () {
+    start();
+});  
 
 // Brush features
 let usingBrush = false;
@@ -75,6 +101,8 @@ function setupCanvas(){
     ctx = canvas.getContext('2d');
     ctx.strokeStyle = stroke_color;
     ctx.lineWidth = line_Width;
+    canvas.width = canvasWidth
+    canvas.height = canvasHeight
     // Adds an event listener for each of the interactions users can have with the canvas.
     canvas.addEventListener('mousedown', ReactToMouseDown);
     canvas.addEventListener('mousemove', ReactToMouseMove);
@@ -97,6 +125,7 @@ function ChangeTool(toolClicked){
     // Highlights the last selected tool in the toolbar and stores the current tool within the variable defined at the top.
     document.getElementById(toolClicked).className = "selected";
     currentTool = toolClicked;
+    document.getElementById('question').style.display = 'none';
 }
 
 function selectColour(){
@@ -163,7 +192,6 @@ function UpdateRubberbandSizeData(loc) {
         shapeBoundingBox.top = loc.y;
     }
 }
-
 
 // Use trigonometry to determine x and y positions.
 function getAngleUsingXAndY(mouselocX, mouselocY){
@@ -256,7 +284,7 @@ function UpdateRubberbandOnMove(loc) {
 function AddText(q) {
     ClearCanvas()
     document.body.style.cursor = "text";
-    ctx.font = "10px Arial";
+    ctx.font = "20px Arial";
     ctx.fillText(q, 30, 30);
     document.getElementById('question').style.display = 'none';
 }

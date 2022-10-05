@@ -64,9 +64,40 @@
         <textarea id="textarea" oninput="Question()" placeholder="Enter your new question"></textarea>
         <button id="add"><i class="fa-solid fa-plus"></i></button>
     </div>
-    <canvas id="my-canvas" width="600" height="auto"></canvas>
-    <div id="img-data-div" class="download">
-        <a href="#" id="img-file" download="image.png">Download Saved Lesson</a>
+    <div class="container">
+        <div class="row">
+            <div class="col-8">
+                <canvas id="my-canvas" width="600" height="auto"></canvas>
+                <div id="img-data-div" class="download">
+                    <a href="#" id="img-file" download="image.png">Download Saved Lesson</a>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="card">
+                    <h5 class="card-header h5 text-center">
+                        Sophie Batten (Maths Tutor)
+                    </h5>
+                    <div class="card-body">
+                        <div class="booth">
+                            <video id="video" width="100%" 
+                                height="100%" autoplay>
+                            </video>
+                        </div>
+  
+                        <div class="text-right">
+                            <a href="#!" class="btn btn-danger" 
+                                onClick="stop()">
+                                Stop Cam
+                            </a>
+                            <a href="#!" class="btn btn-success"
+                                onClick="start()">
+                                Start Cam
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 <!--Bootstrap Javascript Link-->
 <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
