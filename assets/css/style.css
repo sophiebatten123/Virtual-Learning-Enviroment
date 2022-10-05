@@ -9,11 +9,15 @@
     position: relative;
 }
 
+.home i { 
+    color: #141c56;
+    font-size: 20px;
+}
+
 #colours {
     display: flex;
     padding-bottom: 10px;
-    padding-right: 10px;
-    justify-content: right;
+    justify-content: left;
 }
 
 .circle-colour {
@@ -89,7 +93,6 @@
 
 #img-data-div {
     width: 100%;
-    height: 200px;
 }
 
 .toolbar a img {

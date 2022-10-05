@@ -17,8 +17,17 @@
     <title>Classroom Paint</title>
 </head>
 <body>
-    <div class="heading">
-        <h1>Online Maths Classroom</h1>
+    <div class="container">
+        <div class="row">
+            <div class="col-3 pt-4">
+                <a href="#" class="home">
+                    <i class="fa-sharp fa-solid fa-house pr-1"></i>
+                </a>
+            </div>
+            <div class="col-6 heading">
+                <h1>Online Maths Classroom</h1>
+            </div>
+        </div>
     </div>
     <div class="wrapper">
         <div class="toolbar">
@@ -54,11 +63,15 @@
             </a>
         </div>
     </div>
-    <div id="colours">
-        <div class="circle-colour" id="blue"></div>
-        <div class="circle-colour" id="green"></div>
-        <div class="circle-colour" id="red"></div>
-        <div class="circle-colour" id="black"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-12" id="colours">
+                <div class="circle-colour" id="blue"></div>
+                <div class="circle-colour" id="green"></div>
+                <div class="circle-colour" id="red"></div>
+                <div class="circle-colour" id="black"></div>
+            </div>
+        </div>
     </div>
     <div id="question">
         <textarea id="textarea" oninput="Question()" placeholder="Enter your new question"></textarea>
